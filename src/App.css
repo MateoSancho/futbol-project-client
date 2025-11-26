@@ -1,10 +1,11 @@
 #root {
   text-align: center;
-  margin-top: 30px;
+  
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
 }
 
 a {
@@ -14,4 +15,94 @@ a {
 
 hr {
   width: 90vw;
+}
+
+/* ===== NAVBAR STYLES ===== */
+.navbar {
+  background-color: #1e3c72;
+  color: rgb(255, 253, 250);
+  padding: 15px px;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-logo {
+  height: 40px;
+  width: 40px;
+}
+
+.nav-title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+/* ===== FOOTER STYLES ===== */
+.footer {
+  
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1e3c72;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  z-index: 1000;
+  margin-top: 0
+}
+
+.footer a {
+  color: #3498db;
+  text-decoration: none;
+
+}
+
+/* ===== HOME STYLES ===== */
+.sections-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.section-box {
+  background: #1e3c72;
+  border-radius: 10px;
+  padding: 30px;
+  width: 300px;
+  min-height: 250px
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  color: white;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 15px
+}
+
+.section-d {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.section-btn {
+  background: #ff6b35;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none
 }

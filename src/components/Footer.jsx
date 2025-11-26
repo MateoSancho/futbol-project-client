@@ -1,7 +1,10 @@
 function Footer() {
     return(
-        <div>
-            <h1>Footer</h1>
+        <div className="footer">
+            <p>
+                Check out our project on{" "}
+                <a href="https://github.com/MateoSancho"> GitHub </a>
+            </p>
         </div>
     )
 }
