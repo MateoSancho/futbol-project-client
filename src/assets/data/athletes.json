@@ -1,0 +1,33 @@
+{
+  "athletes": [
+    {
+      "name": "Robert Lewandowski",
+      "description": "Polish professional footballer who plays as a striker for Barcelona and the Poland national team",
+      "age": 35
+    },
+    {
+      "name": "Lionel Messi",
+      "description": "Argentine professional footballer who plays as a forward for Inter Miami and the Argentina national team",
+      "age": 36
+    },
+    {
+      "name": "Kevin De Bruyne",
+      "description": "Belgian professional footballer who plays as a midfielder for Manchester City and the Belgium national team",
+      "age": 32
+    }
+  ],
+  "clubs": [
+    {
+        "name": "Barca",
+        "description": "Best fooball team"
+    },
+    {
+        "name": "Monaco",
+        "description": "2 Best fooball team"
+    },
+    {
+        "name": "Leeds",
+        "description": "3 Best fooball team"
+    }
+  ]
+}
