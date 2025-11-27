@@ -1,0 +1,84 @@
+[{
+  "_id": {
+    "$oid": "69271d54a6c77690a9548189"
+  },
+  "name": "Portero"
+},
+{
+  "_id": {
+    "$oid": "69271d62a6c77690a954818b"
+  },
+  "name": "Lateral Derecho"
+},
+{
+  "_id": {
+    "$oid": "69271d6da6c77690a954818d"
+  },
+  "name": "Carrilero Derecho"
+},
+{
+  "_id": {
+    "$oid": "69271d77a6c77690a954818f"
+  },
+  "name": "Defensa Central"
+},
+{
+  "_id": {
+    "$oid": "69271d83a6c77690a9548191"
+  },
+  "name": "Lateral Izquierdo"
+},
+{
+  "_id": {
+    "$oid": "69271d8ea6c77690a9548193"
+  },
+  "name": "Carrilero Izquierdo"
+},
+{
+  "_id": {
+    "$oid": "69271d97a6c77690a9548195"
+  },
+  "name": "Pivote Defensivo"
+},
+{
+  "_id": {
+    "$oid": "69271da2a6c77690a9548197"
+  },
+  "name": "Mediocentro"
+},
+{
+  "_id": {
+    "$oid": "69271daca6c77690a9548199"
+  },
+  "name": "Mediapunta"
+},
+{
+  "_id": {
+    "$oid": "69271db6a6c77690a954819b"
+  },
+  "name": "Extremo Derecho"
+},
+{
+  "_id": {
+    "$oid": "69271dc1a6c77690a954819d"
+  },
+  "name": "Extremo Izquierdo"
+},
+{
+  "_id": {
+    "$oid": "69271dcba6c77690a954819f"
+  },
+  "name": "Falso Nueve"
+},
+{
+  "_id": {
+    "$oid": "69271dd3a6c77690a95481a1"
+  },
+  "name": "Delantero Centro"
+},
+{
+  "_id": {
+    "$oid": "69272085a6c77690a95481a8"
+  },
+  "name": "entrenador"
+}]

@@ -3,34 +3,40 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <div>
-      <h1>Futbol Pedia</h1>
-      <p>All the futbol players and clubs from all around the world</p>
+      <h1>Barca Enthusiasm</h1>
+      <p>All the football players and positions from Barca</p>
 
       <div className="sections-container">
-        {/* Athletes Section */}
-        <div className="section-box">
-          <div className="content-container">
-            <h2 className="section-title">Athletes</h2>
-            <h3 className="section-d">Here wyou can see all the football players you can imagine</h3>
-            <Link to="/athletes" className="section-btn">See Athletes</Link>
+        {/* Players Section */}
+        <div id="box1">
+          <div className="section-box">
+            <div className="content-container">
+              <h2 className="section-title">Players</h2>
+              <h3 className="section-d">Here you can see all the football players from Barca</h3>
+              <Link to="/players" className="section-btn">See Players</Link>
+            </div>
           </div>
         </div>
 
-        {/* Clubs Section */}
-        <div className="section-box">
-          <div className="content-container">
-            <h2 className="section-title">Clubs</h2>
-            <h3 className="section-d">Here are all the clubs around the world</h3>
-            <Link to="/clubs" className="section-btn">See Clubs</Link>
+        {/* Position Section */}
+        <div id="box2">
+          <div className="section-box">
+            <div className="content-container">
+              <h2 className="section-title">Positions</h2>
+              <h3 className="section-d">Here are all the positions of football 11</h3>
+              <Link to="/positions" className="section-btn">See Positions</Link>
+            </div>
           </div>
         </div>
 
         {/* About Section */}
-        <div className="section-box">
-          <div className="content-container">
-            <h2 className="section-title">About US</h2>
-            <h3 className="section-d">Here you can find about our portfolio, and our project</h3>
-            <Link to="/about-us" className="section-btn"> See more </Link>
+        <div id="box3">
+          <div className="section-box">
+            <div className="content-container">
+              <h2 className="section-title">About US</h2>
+              <h3 className="section-d">Here you can find about our portfolio, and our project</h3>
+              <Link to="/about-us" className="section-btn"> See more </Link>
+            </div>
           </div>
         </div>
       </div>

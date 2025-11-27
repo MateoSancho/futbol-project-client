@@ -5,7 +5,7 @@ function AthleteAbout() {
         <div>
             <h1>Athlete page by id</h1>
 
-            <Link to="/athletes" className="Link">← Back to Athletes</Link>
+            <Link to="/players" className="Link">← Back to Players</Link>
         </div>
     )
 }

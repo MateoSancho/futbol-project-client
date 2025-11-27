@@ -6,10 +6,10 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AboutUs from "./pages/AboutUs";
-import Athletes from "./pages/Athletes";
-import AthleteAbout from "./pages/AthleteAbout";
-import Clubs from "./pages/Clubs";
-import ClubAbout from "./pages/ClubAbout";
+import Players from "./pages/Players";
+import PlayerAbout from "./pages/PlayerAbout";
+import Positions from "./pages/Positions";
+import PositionAbout from "./pages/PositionAbout";
 import NotFound from "./pages/Notfound";
 
 function App() {
@@ -22,10 +22,10 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/athletes" element={<Athletes />} />
-          <Route path="/athletes/:id" element={<AthleteAbout />} />
-          <Route path="/clubs" element={<Clubs />} />
-          <Route path="/clubs/:id" element={<ClubAbout />} />
+          <Route path="/players" element={<Players />} />
+          <Route path="/players/:id" element={<PlayerAbout />} />
+          <Route path="/positions" element={<Positions />} />
+          <Route path="/positions/:id" element={<PositionAbout />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
