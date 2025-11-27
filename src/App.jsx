@@ -11,6 +11,9 @@ import PlayerAbout from "./pages/PlayerAbout";
 import Positions from "./pages/Positions";
 import PositionAbout from "./pages/PositionAbout";
 import NotFound from "./pages/Notfound";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/Signup";
+import Error from "./pages/Error";
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
           <Route path="/positions" element={<Positions />} />
           <Route path="/positions/:id" element={<PositionAbout />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/error" element={<Error />}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
 

@@ -5,9 +5,9 @@ function PositionCard (props) {
     const { position } = props;
     
     return(
-        <div>
+        <div className="position-card">
             <h3>{position.name}</h3>
-
+            
             <Link to={`/positions/:id.$oid}`}>
                 <button>View Details</button>
             </Link>

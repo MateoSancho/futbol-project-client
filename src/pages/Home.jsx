@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <div>
+    <div className="Home-section">
       <h1>Barca Enthusiasm</h1>
       <p>All the football players and positions from Barca</p>
 
