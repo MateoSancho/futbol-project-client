@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { getPositionName } from "../services/dataService";
 
 function PlayerCard (props) {
 
@@ -18,7 +17,7 @@ function PlayerCard (props) {
         return age;
     };
 
-    const positionName = getPositionName(player.position);
+    const positionName = get(player.position);
 
     return(
         <div className="athlete-card">
@@ -51,7 +50,7 @@ function PlayerCard (props) {
             </div>
 
             <div className="card-footer">
-                <Link to={`/players/:id}`}>
+                <Link to={`/players/${player.id}`}>
                     <button>View Details</button>
                 </Link>
             </div>

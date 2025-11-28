@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import PlayerCard from "../components/PlayerCard"
-import { getAllPlayers, searchPlayers } from "../services/dataService";
+import PlayerCard from "../components/PlayerCard";
+import axios from "axios";
 
 function Players() {
 
@@ -10,23 +10,32 @@ function Players() {
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
-
-        const allPlayers = getAllPlayers();
-        setPlayers(allPlayers);
-        setFilteredPlayers(allPlayers);
-
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/players`)
+        .then ((response) => {
+            //console.log(response.data)
+            setPlayers(response.data);
+            setFilteredPlayers(response.data);
+        })
+        .catch((error) => {
+            //console.log(error)
+        })
     }, []);
 
+    // Buscar segun nombre, nacionalidad o pisicion
     const handleSearch = (e) => {
         const term = e.target.value.toLowerCase();
         setSearchTerm(term);
     
-        if (!athletes) return;
+        if (!players) return;
 
         if (term === "") {
-            setFilteredAthletes(athletes);
+            setFilteredPlayers(players);
         } else {
-            const filtered = searchPlayers(term);
+            const filtered = players.filter(player => 
+                player.name.toLowerCase().includes(term) ||
+                player.nation.toLowerCase().includes(term) ||
+                player.position.toLowerCase().includes(term)
+            );
             setFilteredAthletes(filtered);
         }
     };
@@ -38,6 +47,8 @@ function Players() {
     return(
         <div>
             <h1>FC Barcelona Players</h1>
+
+            <Link to="/" className="Link">← Back to Home</Link>
 
             {/* Barra de búsqueda */}
             <div className="search-container">
@@ -53,6 +64,7 @@ function Players() {
                 </div>
             </div>
 
+            {/* Todos los jugadores */}
             {filteredPlayers.length === 0 ? (
                 <div className="no-results">
                     <h3>No players found matching your search.</h3>
@@ -60,12 +72,10 @@ function Players() {
             ) : (
                 <div className="players-grid">
                     {filteredPlayers.map((eachPlayer) => {
-                        return <PlayerCard key={eachPlayer._id.$oid} player={eachPlayer}/>;
+                        return <PlayerCard key={eachPlayer._id} player={eachPlayer}/>;
                     })}
                 </div>
             )}
-
-            <Link to="/" className="Link">← Back to Home</Link>
         </div>
     )
 };
