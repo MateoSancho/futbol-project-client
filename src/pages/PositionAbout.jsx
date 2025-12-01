@@ -38,7 +38,7 @@ function PositionAbout() {
       })
       .catch((error) => {
         console.error(error);
-        navigate("/error");
+        navigate("/notfpund");
       });
   }, [params.id]);
 
