@@ -5,13 +5,14 @@ import axios from "axios";
 
 function Players() {
 
-    const [players, setPlayers] = useState(null);
-    const [filteredPlayers, setFilteredPlayers] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [players, setPlayers] = useState(null); // Original data
+    const [filteredPlayers, setFilteredPlayers] = useState(null);  // Filtered result
+    const [searchTerm, setSearchTerm] = useState(""); // Search input value
 
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Get all data from external api
         axios.get(`${import.meta.env.VITE_SERVER_URL}/api/players`)
         .then ((response) => {
             console.log(response.data);
@@ -24,13 +25,16 @@ function Players() {
         })
     }, []);
 
-    // Buscar segun nombre, nacionalidad o pisicion
+    // (Change it) 1 state, remove filter state, filter on return (modul 2)
     const handleSearch = (e) => {
+        // Set to lowercase the input
         const term = e.target.value.toLowerCase();
         setSearchTerm(term);
     
+        // If there is no real search, nothing returned
         if (!players) return;
 
+        // Filters players by name, nationality, or position
         if (term === "") {
             setFilteredPlayers(players);
         } else {
@@ -43,6 +47,7 @@ function Players() {
         }
     };
 
+    // Loading effect
     if (!players) {
      return <h3>Searching...</h3>;
     };

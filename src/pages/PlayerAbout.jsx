@@ -3,10 +3,11 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function PlayerAbout() {
-    
+
+  // All player data
   const [player, setPlayer] = useState(null);
   const [position, setPosition] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);  // Initial Edit value
   const [name, setName] = useState("");
   const [nation, setNation] = useState("");
   const [positionId, setPositionId] = useState("");
@@ -17,13 +18,15 @@ function PlayerAbout() {
   const [teamTrophies, setTeamTrophies] = useState([]);
   const [individualAwards, setIndividualAwards] = useState([]);
 
-  const params = useParams();
-  const navigate = useNavigate();
+  const params = useParams();  // Gets URL parameters (player ID)
+  const navigate = useNavigate();  // Navigation system
 
   useEffect(() => {
+    //Get all the initial data
     axios
       .get(`${import.meta.env.VITE_SERVER_URL}/api/players/${params.id}`)
       .then((response) => {
+        //Set all the data to respective place
         console.log(response.data);
         setPlayer(response.data);
         setName(response.data.name);
@@ -60,10 +63,11 @@ function PlayerAbout() {
   }, [params.id]);
 
 
-  // Edit Player 
+  // Edit Player section
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    // Data update from player
     const updatedPlayer = {
       name,
       nation,
@@ -77,6 +81,7 @@ function PlayerAbout() {
     };
 
     try {
+      // Add to data base all the new data updates
       await axios.put(
         `${import.meta.env.VITE_SERVER_URL}/api/players/${params.id}`,
         updatedPlayer
@@ -103,7 +108,9 @@ function PlayerAbout() {
       });
   };
 
+  // Calculate age by month and year
   const calculateAge = (birthDate) => {
+    //Get the actual date and birth from player
     const today = new Date();
     const birth = new Date(birthDate);
     let age = today.getFullYear() - birth.getFullYear();
@@ -118,10 +125,12 @@ function PlayerAbout() {
     return age;
   };
 
+  // Loading effect
   if (!player) {
     return <h3>Loading player details...</h3>;
   }
 
+  // Form for the editing (Add as component)
   if (isEditing) {
     return (
       <div className="player-about">
@@ -270,6 +279,7 @@ function PlayerAbout() {
         </div>
       )}
 
+      {/* Show all the trophies from the team, only if it has */}
       {player["team trophies"] && player["team trophies"].length > 0 && (
         <div className="trophies-section">
           <h3>Team Trophies ({player["team trophies"].length})</h3>
@@ -281,6 +291,7 @@ function PlayerAbout() {
         </div>
       )}
 
+      {/* Show all the individual trophies, only if it has */}
       {player["individual awards"] &&
         player["individual awards"].length > 0 && (
           <div className="awards-section">
