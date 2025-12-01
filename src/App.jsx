@@ -45,3 +45,10 @@ function App() {
 }
 
 export default App;
+
+/* What to do:
+    - Cloudinary package
+    - Delete, Edit and Add player
+    - Css
+    - 
+  */

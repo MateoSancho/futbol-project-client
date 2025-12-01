@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useNavigate  } from "react";
 import PositionCard from "../components/PositionCard"
 import axios from "axios";
 
@@ -8,16 +8,19 @@ function Positions() {
     const [positions, setPositions] = useState(null);
     const [filteredPositions, setFilteredPositions] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+
+    const navigate = useNavigate();
         
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_SERVER_URL}/positions`)
         .then((response) => {
-            //console.log(response.data)
+            console.log(response.data)
             setPositions(response.data);
             setFilteredPositions(response.data);
         })
         .catch((error) => {
-            //console.log(error)
+            console.log(error)
+            navigate("/error");
         });
     }, [])
 

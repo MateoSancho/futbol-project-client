@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function AthleteAbout() {
+function PlayerAbout() {
+    
   const [player, setPlayer] = useState(null);
   const [position, setPosition] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -48,6 +49,7 @@ function AthleteAbout() {
             })
             .catch((error) => {
               console.error("Error loading position:", error);
+              navigate("/error");
             });
         }
       })
@@ -92,6 +94,7 @@ function AthleteAbout() {
       })
       .catch((error) => {
         console.log(error);
+        navigate("/error");
       });
   };
 
@@ -301,4 +304,4 @@ function AthleteAbout() {
   );
 }
 
-export default AthleteAbout;
+export default PlayerAbout;

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useNavigate  } from "react";
 import PlayerCard from "../components/PlayerCard";
 import axios from "axios";
 
@@ -9,15 +9,18 @@ function Players() {
     const [filteredPlayers, setFilteredPlayers] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_SERVER_URL}/players`)
         .then ((response) => {
-            //console.log(response.data)
+            console.log(response.data);
             setPlayers(response.data);
             setFilteredPlayers(response.data);
         })
         .catch((error) => {
-            //console.log(error)
+            console.log(error);
+            navigate("/error");
         })
     }, []);
 
@@ -36,7 +39,7 @@ function Players() {
                 player.nation.toLowerCase().includes(term) ||
                 player.position.toLowerCase().includes(term)
             );
-            setFilteredAthletes(filtered);
+            setFilteredPlayers(filtered);
         }
     };
 

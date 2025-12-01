@@ -20,7 +20,7 @@ function PlayerCard (props) {
     const positionName = get(player.position);
 
     return(
-        <div className="athlete-card">
+        <div className="player-card">
             <div className="card-header">
                 <h3>{player.name}</h3>
                 <span className="nationality">{player.nation}</span>
