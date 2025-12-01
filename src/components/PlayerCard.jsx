@@ -17,8 +17,6 @@ function PlayerCard (props) {
         return age;
     };
 
-    const positionName = get(player.position);
-
     return(
         <div className="player-card">
             <div className="card-header">
@@ -27,7 +25,7 @@ function PlayerCard (props) {
             </div>
 
             <div className="card-body">
-                <p><strong>Position:</strong> {positionName}</p>
+                <p><strong>Position:</strong> {player.position}</p>
                 <p><strong>Age:</strong> {calculateAge(player["birth date"])}</p>
                 <p><strong>Born:</strong> {new Date(player["birth date"]).toLocaleDateString()}</p>
         

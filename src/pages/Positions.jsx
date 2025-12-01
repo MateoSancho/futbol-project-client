@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
-import { useState, useEffect, useNavigate  } from "react";
+import { Link, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react";
 import PositionCard from "../components/PositionCard"
 import axios from "axios";
 
@@ -12,7 +12,7 @@ function Positions() {
     const navigate = useNavigate();
         
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/positions`)
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/api/positions`)
         .then((response) => {
             console.log(response.data);
             setPositions(response.data);
@@ -68,11 +68,11 @@ function Positions() {
                 </div>
             ) : (
                 filteredPositions.map((eachPosition) => {
-                return <PositionCard key={eachPosition._id.$oid} position={eachPosition}/>;
+                return <PositionCard key={eachPosition._id} position={eachPosition}/>;
                 })
             )}
 
-            <Link to="/" className="Link">← Back to Home</Link>
+            <Link to="/" className="link">← Back to Home</Link>
         </div>
     )
 }

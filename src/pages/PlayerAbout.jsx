@@ -297,7 +297,7 @@ function PlayerAbout() {
         </button>
       </div>
 
-      <Link to="/players" className="Link">
+      <Link to="/players" className="link">
         ← Back to Players
       </Link>
     </div>

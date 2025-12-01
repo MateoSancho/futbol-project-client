@@ -16,7 +16,7 @@ function NotFound() {
                 <li>The page is temporarily unavailable</li>
             </ul>
 
-            <Link to="/" className="Link">← Back to Home</Link>
+            <Link to="/" className="link">← Back to Home</Link>
         </div>
     )
 }

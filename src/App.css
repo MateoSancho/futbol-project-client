@@ -22,13 +22,13 @@ hr {
 .navbar {
   background-color: #1e3c72;
   color: rgb(255, 253, 250);
-  padding: 15px px;
+  padding: 15px 20px;
 }
 
 .nav-container {
   display: flex;
   align-items: center;
-  gap: 25px;
+  justify-content: space-between;
 }
 
 .nav-logo {
@@ -49,16 +49,11 @@ hr {
 
 /* ===== FOOTER STYLES ===== */
 .footer {
-  
-  bottom: 0;
-  left: 0;
-  width: 100%;
   background-color: #1e3c72;
   color: white;
   text-align: center;
   padding: 10px;
-  z-index: 1000;
-  margin-top: 0
+  margin-top: 20px;
 }
 
 .footer a {
@@ -345,4 +340,64 @@ hr {
 
 .auth-card a:hover {
     text-decoration: underline;
+}
+
+/* ===== FIXES ===== */
+.link {
+  color: #1e3c72;
+  text-decoration: none;
+  margin: 5px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Player About Page */
+.player-about {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+/* Position About Page */
+.position-about {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+/* Buttons for edit/delete */
+.edit-btn, .save-btn {
+  background: #1e3c72;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.delete-btn, .cancel-btn {
+  background: #dc3545;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+/* Simple form styles */
+.edit-form input, 
+.edit-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }

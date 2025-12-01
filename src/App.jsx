@@ -23,18 +23,20 @@ function App() {
           <Navbar />
         </div>
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/players" element={<Players />} />
-          <Route path="/players/:id" element={<PlayerAbout />} />
-          <Route path="/positions" element={<Positions />} />
-          <Route path="/positions/:id" element={<PositionAbout />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/error" element={<Error />}/>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/players" element={<Players />} />
+            <Route path="/players/:id" element={<PlayerAbout />} />
+            <Route path="/positions" element={<Positions />} />
+            <Route path="/positions/:id" element={<PositionAbout />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/error" element={<Error />}/>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
 
         <div>
           <Footer />

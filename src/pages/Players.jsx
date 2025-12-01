@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect, useNavigate  } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import PlayerCard from "../components/PlayerCard";
 import axios from "axios";
 
@@ -12,7 +12,7 @@ function Players() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/players`)
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/api/players`)
         .then ((response) => {
             console.log(response.data);
             setPlayers(response.data);
@@ -51,7 +51,7 @@ function Players() {
         <div>
             <h1>FC Barcelona Players</h1>
 
-            <Link to="/" className="Link">← Back to Home</Link>
+            <Link to="/" className="link">← Back to Home</Link>
 
             {/* Barra de búsqueda */}
             <div className="search-container">

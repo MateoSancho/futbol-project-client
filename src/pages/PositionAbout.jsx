@@ -6,7 +6,6 @@ function PositionAbout() {
 
   const [position, setPosition] = useState(null);
   const [players, setPlayers] = useState([]);
-  const [name, setName] = useState("");
 
   const params = useParams();
   const navigate = useNavigate();
@@ -18,12 +17,10 @@ function PositionAbout() {
       .then((response) => {
         console.log(response.data);
         setPosition(response.data);
-        setName(response.data.name);
 
         // Load players for this position
-        axios
-          .get(`${import.meta.env.VITE_SERVER_URL}/api/players`)
-          .then((playersResponse) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/api/players`)
+        .then((playersResponse) => {
             const playersInPosition = playersResponse.data.filter(
               (player) =>
                 player.position === params.id ||
@@ -38,7 +35,7 @@ function PositionAbout() {
       })
       .catch((error) => {
         console.error(error);
-        navigate("/notfpund");
+        navigate("/notfound");
       });
   }, [params.id]);
 
@@ -56,29 +53,29 @@ function PositionAbout() {
       {/*  */}
       {players.length > 0 && (
         <div className="players-in-position">
+
           <h3>Players in this Position ({players.length})</h3>
+
           <div className="players-grid">
             {players.slice(0, 6).map((player) => (
-              <div
-                key={player._id.$oid || player._id}
-                className="player-mini-card"
-              >
+
+              <div key={player._id} className="player-mini-card">
+
                 <h4>{player.name}</h4>
                 <p>{player.nation}</p>
-                <Link
-                  to={`/players/${player.id}`}
-                  className="mini-link"
-                >
-                  View Player
-                </Link>
+
+                <Link to={`/players/${player.id}`} className="mini-link">View Player</Link>
+
               </div>
             ))}
           </div>
+
           {players.length > 6 && (
             <p className="more-players">
               ... and {players.length - 6} more players
             </p>
           )}
+
         </div>
       )}
 

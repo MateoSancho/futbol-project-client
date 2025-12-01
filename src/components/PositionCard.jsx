@@ -8,7 +8,7 @@ function PositionCard (props) {
         <div className="position-card">
             <h3>{position.name}</h3>
             
-            <Link to={`/positions/:${position.id}`}>
+            <Link to={`/positions/:${position._id}`}>
                 <button>View Details</button>
             </Link>
         </div>

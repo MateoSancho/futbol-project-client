@@ -36,7 +36,7 @@ function Signup() {
                     Already have an account? <Link to="/login">Log In</Link>
                 </p>
                 
-                <Link to="/" className="Link">← Back to Home</Link>
+                <Link to="/" className="link">← Back to Home</Link>
             </div>
         </div>
     );
