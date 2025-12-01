@@ -55,9 +55,12 @@ function PlayerAbout() {
       })
       .catch((error) => {
         console.error(error);
+        navigate("/error");
       });
   }, [params.id]);
 
+
+  // Edit Player 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -82,9 +85,11 @@ function PlayerAbout() {
       setIsEditing(false);
     } catch (error) {
       console.log(error);
+      navigate("/error");
     }
   };
 
+  // Delete Player
   const deletePlayer = () => {
     axios
       .delete(`${import.meta.env.VITE_SERVER_URL}/api/players/${params.id}`)

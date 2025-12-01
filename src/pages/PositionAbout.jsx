@@ -35,7 +35,7 @@ function PositionAbout() {
       })
       .catch((error) => {
         console.error(error);
-        navigate("/notfound");
+        navigate("/error");
       });
   }, [params.id]);
 
