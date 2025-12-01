@@ -48,7 +48,7 @@ function PlayerCard (props) {
             </div>
 
             <div className="card-footer">
-                <Link to={`/players/${player.id}`}>
+                <Link to={`/players/${player._id}`}>
                     <button>View Details</button>
                 </Link>
             </div>
