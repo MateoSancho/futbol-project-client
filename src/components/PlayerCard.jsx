@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
-function PlayerCard (props) {
-
-    const { player } = props;
+function PlayerCard ({player}) {
 
     // Calculate age from birth date
     const calculateAge = (birthDate) => {
@@ -21,11 +19,11 @@ function PlayerCard (props) {
         <div className="player-card">
             <div className="card-header">
                 <h3>{player.name}</h3>
-                <span className="nationality">{player.nation}</span>
+                <span className="nationality">{Array.isArray(player.nation) ? player.nation.join(", ") : player.nation}</span>
             </div>
 
             <div className="card-body">
-                <p><strong>Position:</strong> {player.position}</p>
+                <p><strong>Position:</strong> {player.position?.name || player.position || "No position"}</p>
                 <p><strong>Age:</strong> {calculateAge(player["birth date"])}</p>
                 <p><strong>Born:</strong> {new Date(player["birth date"]).toLocaleDateString()}</p>
         

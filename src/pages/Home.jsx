@@ -35,7 +35,7 @@ function Home() {
             <div className="content-container">
               <h2 className="section-title">About US</h2>
               <h3 className="section-d">Here you can find about our portfolio, and our project</h3>
-              <Link to="/about-us" className="section-btn"> See more </Link>
+              <Link to="/aboutus" className="section-btn"> See more </Link>
             </div>
           </div>
         </div>

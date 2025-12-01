@@ -38,11 +38,17 @@ function Players() {
         if (term === "") {
             setFilteredPlayers(players);
         } else {
-            const filtered = players.filter(player => 
-                player.name.toLowerCase().includes(term) ||
-                player.nation.toLowerCase().includes(term) ||
-                player.position.toLowerCase().includes(term)
-            );
+            const filtered = players.filter(player => {
+                const playerName = player.name?.toLowerCase() || "";
+                const playerNation = player.nation?.toLowerCase() || "";
+                const playerPosition = player.position?.name?.toLowerCase() || "";
+
+                return (
+                    playerName.includes(term) ||
+                    playerNation.includes(term) ||
+                    playerPosition.includes(term)
+                )
+            });
             setFilteredPlayers(filtered);
         }
     };
