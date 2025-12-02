@@ -64,7 +64,7 @@ function PositionAbout() {
                 <h4>{player.name}</h4>
                 <p>{player.nation}</p>
 
-                <Link to={`/players/${player.id}`} className="mini-link">View Player</Link>
+                <Link to={`/players/${player._id}`} className="mini-link">View Player</Link>
 
               </div>
             ))}
