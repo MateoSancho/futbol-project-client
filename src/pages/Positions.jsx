@@ -49,6 +49,8 @@ function Positions() {
         <div>
             <h1>Football Positions</h1>
 
+            <Link to="/" className="link">← Back to Home</Link>
+
             <div className="search-container">
                 <input
                     type="text"
@@ -71,8 +73,6 @@ function Positions() {
                 return <PositionCard key={eachPosition._id} position={eachPosition}/>;
                 })
             )}
-
-            <Link to="/" className="link">← Back to Home</Link>
         </div>
     )
 }

@@ -41,7 +41,12 @@ function Players() {
             const filtered = players.filter(player => {
                 const playerName = player.name?.toLowerCase() || "";
                 const playerNation = player.nation?.toLowerCase() || "";
-                const playerPosition = player.position?.name?.toLowerCase() || "";
+                let playerPosition = "";
+                if (player.position && typeof player.position === 'object') {
+                playerPosition = player.position.name?.toLowerCase() || "";
+                } else {
+                playerPosition = String(player.position || "").toLowerCase();
+                }
 
                 return (
                     playerName.includes(term) ||

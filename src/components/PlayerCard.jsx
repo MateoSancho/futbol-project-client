@@ -19,7 +19,7 @@ function PlayerCard ({player}) {
         <div className="player-card">
             <div className="card-header">
                 <h3>{player.name}</h3>
-                <span className="nationality">{Array.isArray(player.nation) ? player.nation.join(", ") : player.nation}</span>
+                <span className="nationality">{player.nation ? (Array.isArray(player.nation) ? player.nation.join(", ") : player.nation) : "Unknown"}</span>
             </div>
 
             <div className="card-body">

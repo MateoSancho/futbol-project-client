@@ -1,22 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import EditPlayerForm from "../components/EditPlayerForm"; 
 
 function PlayerAbout() {
 
   // All player data
   const [player, setPlayer] = useState(null);
-  const [position, setPosition] = useState(null);
   const [isEditing, setIsEditing] = useState(false);  // Initial Edit value
-  const [name, setName] = useState("");
-  const [nation, setNation] = useState("");
-  const [positionId, setPositionId] = useState("");
-  const [goals, setGoals] = useState(0);
-  const [assist, setAssist] = useState(0);
-  const [birthDate, setBirthDate] = useState("");
-  const [description, setDescription] = useState("");
-  const [teamTrophies, setTeamTrophies] = useState([]);
-  const [individualAwards, setIndividualAwards] = useState([]);
 
   const params = useParams();  // Gets URL parameters (player ID)
   const navigate = useNavigate();  // Navigation system
@@ -29,70 +20,12 @@ function PlayerAbout() {
         //Set all the data to respective place
         console.log(response.data);
         setPlayer(response.data);
-        setName(response.data.name);
-        setNation(response.data.nation);
-        setPositionId(response.data.position);
-        setGoals(response.data.goals || 0);
-        setAssist(response.data.assist || 0);
-        setBirthDate(response.data["birth date"]);
-        setDescription(response.data.description || "");
-        setTeamTrophies(response.data["team trophies"] || []);
-        setIndividualAwards(response.data["individual awards"] || []);
-
-        // Load position data using the position ID from player
-        if (response.data.position) {
-          axios
-            .get(
-              `${import.meta.env.VITE_SERVER_URL}/api/positions/${
-                response.data.position
-              }`
-            )
-            .then((positionResponse) => {
-              setPosition(positionResponse.data);
-            })
-            .catch((error) => {
-              console.error("Error loading position:", error);
-              navigate("/error");
-            });
-        }
       })
       .catch((error) => {
         console.error(error);
         navigate("/error");
       });
   }, [params.id]);
-
-
-  // Edit Player section
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    // Data update from player
-    const updatedPlayer = {
-      name,
-      nation,
-      position: positionId,
-      goals: parseInt(goals),
-      assist: parseInt(assist),
-      "birth date": birthDate,
-      description,
-      "team trophies": teamTrophies,
-      "individual awards": individualAwards,
-    };
-
-    try {
-      // Add to data base all the new data updates
-      await axios.put(
-        `${import.meta.env.VITE_SERVER_URL}/api/players/${params.id}`,
-        updatedPlayer
-      );
-      setPlayer(updatedPlayer);
-      setIsEditing(false);
-    } catch (error) {
-      console.log(error);
-      navigate("/error");
-    }
-  };
 
   // Delete Player
   const deletePlayer = () => {
@@ -125,112 +58,32 @@ function PlayerAbout() {
     return age;
   };
 
+  const handleSave = (updatedPlayer) => {
+    setPlayer(updatedPlayer);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
   // Loading effect
   if (!player) {
     return <h3>Loading player details...</h3>;
   }
 
-  // Form for the editing (Add as component)
   if (isEditing) {
     return (
-      <div className="player-about">
-        <h1>Edit Player</h1>
-
-        <form onSubmit={handleFormSubmit} className="edit-form">
-          <div className="form-group">
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Nationality:</label>
-            <input
-              type="text"
-              name="nation"
-              value={nation}
-              onChange={(e) => setNation(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Position ID:</label>
-            <input
-              type="text"
-              name="positionId"
-              value={positionId}
-              onChange={(e) => setPositionId(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Goals:</label>
-            <input
-              type="number"
-              name="goals"
-              value={goals}
-              onChange={(e) => setGoals(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Assists:</label>
-            <input
-              type="number"
-              name="assist"
-              value={assist}
-              onChange={(e) => setAssist(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Birth Date:</label>
-            <input
-              type="date"
-              name="birthDate"
-              value={birthDate}
-              onChange={(e) => setBirthDate(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Description:</label>
-            <textarea
-              name="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows="3"
-            />
-          </div>
-
-          <div className="form-buttons">
-            <button type="submit" className="save-btn">
-              Save Changes
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="cancel-btn"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-
-        <Link to="/players" className="link">
-          ← Back to Players
-        </Link>
-      </div>
+      <EditPlayerForm
+        player={player}
+        onSave={handleSave}
+        onCancel={handleCancel}
+        params={params}
+        navigate={navigate}
+      />
     );
   }
+
 
   return (
     <div className="player-about">
@@ -243,9 +96,6 @@ function PlayerAbout() {
 
       <div className="player-basic-info">
         <div className="info-row">
-          <p>
-            <strong>Position:</strong> {position ? position.name : "Loading..."}
-          </p>
           <p>
             <strong>Nationality:</strong> {player.nation}
           </p>
