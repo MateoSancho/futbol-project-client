@@ -69,9 +69,12 @@ function Positions() {
                     <h3>No positions found matching your search.</h3>
                 </div>
             ) : (
-                filteredPositions.map((eachPosition) => {
-                return <PositionCard key={eachPosition._id} position={eachPosition}/>;
-                })
+                <div className="positions-grid">
+                {filteredPositions.map((eachPosition) => {
+                    return <PositionCard key={eachPosition._id} position={eachPosition} />;
+                })}
+</div>
+
             )}
         </div>
     )

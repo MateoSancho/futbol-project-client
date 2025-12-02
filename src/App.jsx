@@ -18,12 +18,12 @@ import Error from "./pages/Error";
 function App() {
   return (
     <BrowserRouter>
-      <div>
-        <div>
+      <div id="app-wrapper">
+        
           <Navbar />
-        </div>
+        
 
-        <div>
+        <div className="app-content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/players" element={<Players />} />
@@ -38,9 +38,9 @@ function App() {
           </Routes>
         </div>
 
-        <div>
+        
           <Footer />
-        </div>
+        
       </div>
     </BrowserRouter>
   );

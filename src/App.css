@@ -37,6 +37,17 @@ body {
   flex-direction: column;
 }
 
+#app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-content {
+  flex: 1;
+}
+
+
 a {
   margin: 5px;
   text-underline-offset: 4px;
@@ -336,6 +347,18 @@ hr {
   justify-content: space-between;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+/* GRID para mostrar todas las posiciones centradas */
+.positions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 20px;
+  justify-items: center;
+}
+
 
 .player-card:hover {
   transform: translateY(-4px);
