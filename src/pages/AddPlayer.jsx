@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import playersService from "../services/players.services";
+import positionsService from "../services/positions.services";
 
 function AddPlayer() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
 
   // Form states
   const [name, setName] = useState("");
@@ -19,12 +20,12 @@ function AddPlayer() {
   const [birthday, setBirthday] = useState("");
   const [positionId, setPositionId] = useState("");
 
-  // Positions from DB
   const [positions, setPositions] = useState([]);
 
+  // Load positions
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_SERVER_URL}/api/positions`)
+    positionsService
+      .getAll()
       .then((res) => setPositions(res.data))
       .catch(() => navigate("/error"));
   }, []);
@@ -36,27 +37,26 @@ function AddPlayer() {
       name,
       social,
       image,
-      teamTrophies: teamTrophies.split(",").map(t => t.trim()).filter(Boolean),
-      individualAwards: individualAwards.split(",").map(a => a.trim()).filter(Boolean),
-      nation: nation.split(",").map(n => n.trim()).filter(Boolean),
+      teamTrophies: teamTrophies
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
+      individualAwards: individualAwards
+        .split(",")
+        .map((a) => a.trim())
+        .filter(Boolean),
+      nation: nation.split(",").map((n) => n.trim()).filter(Boolean),
       description,
-      goals,
-      assists,
+      goals: Number(goals),
+      assists: Number(assists),
       birthday,
-      position: positionId
+      position: positionId,
     };
 
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/players`,
-        newPlayer,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      navigate("/players");
-    } catch (error) {
-      navigate("/error");
-    }
+    playersService
+      .create(newPlayer)
+      .then(() => navigate("/players"))
+      .catch(() => navigate("/error"));
   };
 
   return (

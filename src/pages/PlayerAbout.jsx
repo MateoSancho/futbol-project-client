@@ -1,58 +1,41 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import EditPlayerForm from "../components/EditPlayerForm"; 
+
+import playersService from "../services/players.services";
+import EditPlayerForm from "../components/EditPlayerForm";
 import CommentSection from "../components/CommentSection";
 
 function PlayerAbout() {
-
-  // All player data
   const [player, setPlayer] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);  // Initial Edit value
+  const [isEditing, setIsEditing] = useState(false);
 
-  const params = useParams();  // Gets URL parameters (player ID)
-  const navigate = useNavigate();  // Navigation system
+  const params = useParams();
+  const navigate = useNavigate();
 
+  const role = localStorage.getItem("role");
+
+  // Load player data
   useEffect(() => {
-    //Get all the initial data
-    axios
-      .get(`${import.meta.env.VITE_SERVER_URL}/api/players/${params.id}`)
-      .then((response) => {
-        //Set all the data to respective place
-        console.log(response.data);
-        setPlayer(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-        navigate("/error");
-      });
+    playersService
+      .getOne(params.id)
+      .then((res) => setPlayer(res.data))
+      .catch(() => navigate("/error"));
   }, [params.id]);
 
-  // Delete Player
+  // Delete player (admin only)
   const deletePlayer = () => {
-    const token = localStorage.getItem("authToken");
-    axios
-      .delete(`${import.meta.env.VITE_SERVER_URL}/api/players/${params.id}`,
-      { 
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .then(() => {
-        // Redirect to players list after successful delete
-        navigate("/players");
-      })
-      .catch((error) => {
-        console.log(error);
-        navigate("/error");
-      });
+    playersService
+      .delete(params.id)
+      .then(() => navigate("/players"))
+      .catch(() => navigate("/error"));
   };
 
-  // Calculate age by month and year
-  const calculateAge = (birthDate) => {
-    //Get the actual date and birth from player
+  // Calculate age properly from birthday
+  const calculateAge = (birthday) => {
+    if (!birthday) return "N/A";
     const today = new Date();
-    const birth = new Date(birthDate);
+    const birth = new Date(birthday);
+
     let age = today.getFullYear() - birth.getFullYear();
     const monthDiff = today.getMonth() - birth.getMonth();
 
@@ -62,6 +45,7 @@ function PlayerAbout() {
     ) {
       age--;
     }
+
     return age;
   };
 
@@ -70,15 +54,11 @@ function PlayerAbout() {
     setIsEditing(false);
   };
 
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
+  const handleCancel = () => setIsEditing(false);
 
-  // Loading effect
-  if (!player) {
-    return <h3>Loading player details...</h3>;
-  }
+  if (!player) return <h3>Loading player details...</h3>;
 
+  // If editing mode → show the edit form
   if (isEditing) {
     return (
       <EditPlayerForm
@@ -91,44 +71,57 @@ function PlayerAbout() {
     );
   }
 
-
   return (
     <div className="player-about">
+
+      {/* HEADER */}
       <div className="player-header">
         <h1>{player.name}</h1>
         <div className="player-nationality">
-          <span className="flag">{player.nation}</span>
+          {Array.isArray(player.nation)
+            ? player.nation.join(", ")
+            : player.nation}
         </div>
       </div>
 
+      {/* BASIC INFO */}
       <div className="player-basic-info">
         <div className="info-row">
           <p>
-            <strong>Nationality:</strong> {player.nation}
+            <strong>Nationality:</strong>{" "}
+            {Array.isArray(player.nation)
+              ? player.nation.join(", ")
+              : player.nation}
           </p>
         </div>
+
         <div className="info-row">
           <p>
-            <strong>Age:</strong> {calculateAge(player["birth date"])}
+            <strong>Age:</strong> {calculateAge(player.birthday)}
           </p>
           <p>
             <strong>Born:</strong>{" "}
-            {new Date(player["birth date"]).toLocaleDateString()}
+            {player.birthday
+              ? new Date(player.birthday).toLocaleDateString()
+              : "Unknown"}
           </p>
         </div>
       </div>
 
+      {/* STATS */}
       <div className="player-stats">
         <div className="stat-card">
           <h3>Goals</h3>
           <div className="stat-number">{player.goals || 0}</div>
         </div>
+
         <div className="stat-card">
           <h3>Assists</h3>
-          <div className="stat-number">{player.assist || 0}</div>
+          <div className="stat-number">{player.assists || 0}</div>
         </div>
       </div>
 
+      {/* DESCRIPTION */}
       {player.description && (
         <div className="player-description">
           <h3>Description</h3>
@@ -136,48 +129,52 @@ function PlayerAbout() {
         </div>
       )}
 
-      {/* Show all the trophies from the team, only if it has */}
-      {player["team trophies"] && player["team trophies"].length > 0 && (
+      {/* TEAM TROPHIES */}
+      {player.teamTrophies && player.teamTrophies.length > 0 && (
         <div className="trophies-section">
-          <h3>Team Trophies ({player["team trophies"].length})</h3>
+          <h3>Team Trophies ({player.teamTrophies.length})</h3>
           <ul className="trophies-list">
-            {player["team trophies"].map((trophy, index) => (
+            {player.teamTrophies.map((trophy, index) => (
               <li key={index}>{trophy}</li>
             ))}
           </ul>
         </div>
       )}
 
-      {/* Show all the individual trophies, only if it has */}
-      {player["individual awards"] &&
-        player["individual awards"].length > 0 && (
-          <div className="awards-section">
-            <h3>Individual Awards ({player["individual awards"].length})</h3>
-            <ul className="awards-list">
-              {player["individual awards"].map((award, index) => (
-                <li key={index}>{award}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+      {/* INDIVIDUAL AWARDS */}
+      {player.individualAwards && player.individualAwards.length > 0 && (
+        <div className="awards-section">
+          <h3>Individual Awards ({player.individualAwards.length})</h3>
+          <ul className="awards-list">
+            {player.individualAwards.map((award, index) => (
+              <li key={index}>{award}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-      {/* Comment Section */}
+      {/* COMMENTS */}
       <div className="comments-container">
-        <CommentSection playerId={params.id} navigate={navigate} />
+        <CommentSection playerId={params.id} />
       </div>
-      
-      <div className="action-buttons">
-        <button onClick={() => setIsEditing(true)} className="edit-btn">
-          Edit Player
-        </button>
-        <button onClick={deletePlayer} className="delete-btn">
-          Delete Player
-        </button>
-      </div>
+
+      {/* ACTION BUTTONS — ONLY ADMINS */}
+      {role === "admin" && (
+        <div className="action-buttons">
+          <button onClick={() => setIsEditing(true)} className="edit-btn">
+            Edit Player
+          </button>
+
+          <button onClick={deletePlayer} className="delete-btn">
+            Delete Player
+          </button>
+        </div>
+      )}
 
       <Link to="/players" className="link">
         ← Back to Players
       </Link>
+
     </div>
   );
 }

@@ -1,55 +1,62 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
+import playersService from "../services/players.services";
+import positionsService from "../services/positions.services";
 
 function EditPlayerForm({ player, onSave, onCancel, params, navigate }) {
   const [name, setName] = useState(player.name);
-  const [nation, setNation] = useState(player.nation);
+  const [nation, setNation] = useState(player.nation.join(", "));
   const [positionId, setPositionId] = useState(player.position?._id || player.position);
+
   const [goals, setGoals] = useState(player.goals || 0);
-  const [assist, setAssist] = useState(player.assist || 0);
-  const [birthDate, setBirthDate] = useState(player["birth date"]);
+  const [assists, setAssists] = useState(player.assists || 0);
+
+  const [birthday, setBirthday] = useState(player.birthday?.slice(0, 10));
   const [description, setDescription] = useState(player.description || "");
-  const [teamTrophies, setTeamTrophies] = useState((player["team trophies"] || []).join(", "));
-  const [individualAwards, setIndividualAwards] = useState((player["individual awards"] || []).join(", "));
+
+  const [teamTrophies, setTeamTrophies] = useState(
+    (player.teamTrophies || []).join(", ")
+  );
+
+  const [individualAwards, setIndividualAwards] = useState(
+    (player.individualAwards || []).join(", ")
+  );
+
   const [positions, setPositions] = useState([]);
 
+  // GET Positions
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_SERVER_URL}/api/positions`)
+    positionsService
+      .getAll()
       .then((res) => setPositions(res.data))
       .catch(() => navigate("/error"));
   }, []);
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
 
     const updatedPlayer = {
       name,
-      nation,
+      nation: nation.split(",").map((n) => n.trim()).filter(Boolean),
       position: positionId,
       goals: Number(goals),
-      assist: Number(assist),
-      "birth date": birthDate,
+      assists: Number(assists),
+      birthday,
       description,
-      "team trophies": teamTrophies.split(",").map((t) => t.trim()).filter(Boolean),
-      "individual awards": individualAwards.split(",").map((a) => a.trim()).filter(Boolean),
+      teamTrophies: teamTrophies
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
+      individualAwards: individualAwards
+        .split(",")
+        .map((a) => a.trim())
+        .filter(Boolean),
     };
 
-    try {
-      const token = localStorage.getItem("authToken");
-
-      const response = await axios.put(
-        `${import.meta.env.VITE_SERVER_URL}/api/players/${params.id}`,
-        updatedPlayer,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      onSave(response.data);
-    } catch {
-      navigate("/error");
-    }
+    playersService
+      .update(params.id, updatedPlayer)
+      .then((response) => onSave(response.data))
+      .catch(() => navigate("/error"));
   };
 
   return (
@@ -58,19 +65,34 @@ function EditPlayerForm({ player, onSave, onCancel, params, navigate }) {
 
       <form onSubmit={handleFormSubmit} className="edit-form">
 
+        {/* NAME */}
         <div className="form-group">
           <label>Name:</label>
-          <input value={name} onChange={(e) => setName(e.target.value)} required />
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
         </div>
 
+        {/* NATION */}
         <div className="form-group">
           <label>Nationality:</label>
-          <input value={nation} onChange={(e) => setNation(e.target.value)} required />
+          <input
+            value={nation}
+            onChange={(e) => setNation(e.target.value)}
+            required
+          />
         </div>
 
+        {/* POSITION */}
         <div className="form-group">
           <label>Position:</label>
-          <select value={positionId} onChange={(e) => setPositionId(e.target.value)} required>
+          <select
+            value={positionId}
+            onChange={(e) => setPositionId(e.target.value)}
+            required
+          >
             <option value="">Select position</option>
             {positions.map((pos) => (
               <option key={pos._id} value={pos._id}>
@@ -80,39 +102,70 @@ function EditPlayerForm({ player, onSave, onCancel, params, navigate }) {
           </select>
         </div>
 
+        {/* GOALS */}
         <div className="form-group">
           <label>Goals:</label>
-          <input type="number" value={goals} onChange={(e) => setGoals(e.target.value)} />
+          <input
+            type="number"
+            value={goals}
+            onChange={(e) => setGoals(e.target.value)}
+          />
         </div>
 
+        {/* ASSISTS */}
         <div className="form-group">
           <label>Assists:</label>
-          <input type="number" value={assist} onChange={(e) => setAssist(e.target.value)} />
+          <input
+            type="number"
+            value={assists}
+            onChange={(e) => setAssists(e.target.value)}
+          />
         </div>
 
+        {/* BIRTHDAY */}
         <div className="form-group">
-          <label>Birth Date:</label>
-          <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
+          <label>Birthday:</label>
+          <input
+            type="date"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+            required
+          />
         </div>
 
+        {/* DESCRIPTION */}
         <div className="form-group">
           <label>Description:</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows="3" />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows="3"
+          />
         </div>
 
+        {/* TEAM TROPHIES */}
         <div className="form-group">
           <label>Team Trophies:</label>
-          <input value={teamTrophies} onChange={(e) => setTeamTrophies(e.target.value)} />
+          <input
+            value={teamTrophies}
+            onChange={(e) => setTeamTrophies(e.target.value)}
+          />
         </div>
 
+        {/* INDIVIDUAL AWARDS */}
         <div className="form-group">
           <label>Individual Awards:</label>
-          <input value={individualAwards} onChange={(e) => setIndividualAwards(e.target.value)} />
+          <input
+            value={individualAwards}
+            onChange={(e) => setIndividualAwards(e.target.value)}
+          />
         </div>
 
         <div className="form-buttons">
           <button type="submit" className="save-btn">Save Changes</button>
-          <button type="button" onClick={onCancel} className="cancel-btn">Cancel</button>
+          <button type="button" onClick={onCancel} className="cancel-btn">
+            Cancel
+          </button>
         </div>
 
       </form>
