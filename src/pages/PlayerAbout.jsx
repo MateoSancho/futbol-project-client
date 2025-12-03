@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import EditPlayerForm from "../components/EditPlayerForm"; 
+import CommentSection from "../components/CommentSection";
 
 function PlayerAbout() {
 
@@ -29,8 +30,14 @@ function PlayerAbout() {
 
   // Delete Player
   const deletePlayer = () => {
+    const token = localStorage.getItem("authToken");
     axios
-      .delete(`${import.meta.env.VITE_SERVER_URL}/api/players/${params.id}`)
+      .delete(`${import.meta.env.VITE_SERVER_URL}/api/players/${params.id}`,
+      { 
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
       .then(() => {
         // Redirect to players list after successful delete
         navigate("/players");
@@ -154,6 +161,11 @@ function PlayerAbout() {
           </div>
         )}
 
+      {/* Comment Section */}
+      <div className="comments-container">
+        <CommentSection playerId={params.id} navigate={navigate} />
+      </div>
+      
       <div className="action-buttons">
         <button onClick={() => setIsEditing(true)} className="edit-btn">
           Edit Player

@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
@@ -17,39 +17,29 @@ import Error from "./pages/Error";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div id="app-wrapper">
-        
-          <Navbar />
-        
+    <div id="app-wrapper">
+      
+      <Navbar />
 
-        <div className="app-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/players" element={<Players />} />
-            <Route path="/players/:id" element={<PlayerAbout />} />
-            <Route path="/positions" element={<Positions />} />
-            <Route path="/positions/:id" element={<PositionAbout />} />
-            <Route path="/aboutus" element={<AboutUs />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/error" element={<Error />}/>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-
-        
-          <Footer />
-        
+      <div className="app-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/players" element={<Players />} />
+          <Route path="/players/:id" element={<PlayerAbout />} />
+          <Route path="/positions" element={<Positions />} />
+          <Route path="/positions/:id" element={<PositionAbout />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/error" element={<Error />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
-    </BrowserRouter>
+
+      <Footer />
+      
+    </div>
   );
 }
 
 export default App;
-
-/* What to do:
-    - Cloudinary package
-    - Css
-    - 
-  */
