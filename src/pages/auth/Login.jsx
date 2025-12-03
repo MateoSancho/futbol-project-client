@@ -19,11 +19,25 @@ function Login() {
                 `${import.meta.env.VITE_SERVER_URL}/api/auth/login`,
                 { email, password }
             );
-            
+
+            // Save the token
             storeToken(response.data.authToken);
-            authenticateUser(); // Update auth state
+
+            // ⭐ Fetch role through /verify
+            const verifyResponse = await axios.get(
+                `${import.meta.env.VITE_SERVER_URL}/api/auth/verify`,
+                {
+                    headers: { Authorization: `Bearer ${response.data.authToken}` }
+                }
+            );
+
+            // ⭐ Save role in localStorage
+            localStorage.setItem("role", verifyResponse.data.role);
+
+            // Update context state
+            authenticateUser();
             
-            // Redirigir a la página principal
+            // Redirect
             navigate("/");
         } catch (error) {
             console.error("Login error:", error);

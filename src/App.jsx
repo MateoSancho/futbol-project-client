@@ -14,6 +14,8 @@ import NotFound from "./pages/Notfound";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/Signup";
 import Error from "./pages/Error";
+import AddPlayer from "./pages/AddPlayer";
+
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/error" element={<Error />} />
+          <Route path="/players/new" element={<AddPlayer />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

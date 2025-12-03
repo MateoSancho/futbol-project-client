@@ -11,6 +11,9 @@ function Players() {
 
     const navigate = useNavigate();
 
+    // ⭐ ADDED — detect admin
+    const role = localStorage.getItem("role");
+
     useEffect(() => {
         // Get all data from external api
         axios.get(`${import.meta.env.VITE_SERVER_URL}/api/players`)
@@ -66,6 +69,16 @@ function Players() {
     return(
         <div>
             <h1>FC Barcelona Players</h1>
+
+            {/* ⭐ ADDED — ONLY ADMINS SEE THIS BUTTON */}
+            {role === "admin" && (
+                <button 
+                    onClick={() => navigate("/players/new")}
+                    className="add-player-btn"
+                >
+                    ➕ Add Player
+                </button>
+            )}
 
             <Link to="/" className="link">← Back to Home</Link>
 
