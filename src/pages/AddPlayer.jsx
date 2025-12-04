@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import playersService from "../services/players.services";
 import positionsService from "../services/positions.services";
@@ -194,6 +194,10 @@ function AddPlayer() {
           Create Player
         </button>
       </form>
+
+      <Link to="/players" className="link">
+        ← Back to players
+      </Link>
     </div>
   );
 }

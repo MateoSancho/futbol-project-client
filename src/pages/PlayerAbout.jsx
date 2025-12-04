@@ -76,11 +76,23 @@ function PlayerAbout() {
 
       {/* HEADER */}
       <div className="player-header">
-        <h1>{player.name}</h1>
-        <div className="player-nationality">
-          {Array.isArray(player.nation)
-            ? player.nation.join(", ")
-            : player.nation}
+        <div className="player-image-large">
+          <img 
+            src={player.image || "https://via.placeholder.com/400x500/004d98/ffffff?text=No+Image"} 
+            alt={player.name}
+            onError={(e) => {
+              e.target.src = "https://via.placeholder.com/400x500/004d98/ffffff?text=No+Image";
+            }}
+          />
+        </div>
+
+        <div className="player-header-info">
+          <h1>{player.name}</h1>
+          <div className="player-nationality">
+            {Array.isArray(player.nation)
+              ? player.nation.join(", ")
+              : player.nation}
+          </div>
         </div>
       </div>
 

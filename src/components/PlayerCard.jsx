@@ -15,8 +15,35 @@ function PlayerCard ({player}) {
         return age;
     };
 
+    // Get optimized Cloudinary image URL (thumbnail)
+    const getPlayerImage = () => {
+        if (!player.image) {
+            return "https://res.cloudinary.com/demo/image/upload/w_300,h_300,c_fill/v1586187664/sample.jpg"; // Placeholder
+        }
+        
+        // If it's already a Cloudinary URL, optimize it for card display
+        if (player.image.includes('cloudinary.com')) {
+            // Add Cloudinary transformations for thumbnail
+            return player.image.replace('/upload/', '/upload/w_300,h_300,c_fill,g_face/');
+        }
+        
+        return player.image;
+    };
+
     return(
         <div className="player-card">
+            {/* PLAYER IMAGE */}
+            <div className="player-image-container">
+                <img 
+                    src={getPlayerImage()} 
+                    alt={player.name}
+                    className="player-card-image"
+                    onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/300x400/004d98/ffffff?text=No+Image";
+                    }}
+                />
+            </div>
+            
             <div className="card-header">
                 <h3>{player.name}</h3>
                 <span className="nationality">{(player.nation) ? player.nation.join(", ") : player.nation}</span>
