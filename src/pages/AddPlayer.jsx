@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import playersService from "../services/players.services";
 import positionsService from "../services/positions.services";
+import axios from "axios";
 
 function AddPlayer() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ function AddPlayer() {
   // Form states
   const [name, setName] = useState("");
   const [social, setSocial] = useState("");
-  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");   //  CLOUDINARY URL
   const [teamTrophies, setTeamTrophies] = useState("");
   const [individualAwards, setIndividualAwards] = useState("");
   const [nation, setNation] = useState("");
@@ -22,6 +23,9 @@ function AddPlayer() {
 
   const [positions, setPositions] = useState([]);
 
+  //  Cloudinary upload state
+  const [isUploading, setIsUploading] = useState(false);
+
   // Load positions
   useEffect(() => {
     positionsService
@@ -30,21 +34,38 @@ function AddPlayer() {
       .catch(() => navigate("/error"));
   }, []);
 
+  //  HANDLE CLOUDINARY UPLOAD
+  const handleFileUpload = async (event) => {
+    if (!event.target.files[0]) return;
+
+    setIsUploading(true);
+
+    const uploadData = new FormData();
+    uploadData.append("image", event.target.files[0]);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/upload`,
+        uploadData
+      );
+
+      setImageUrl(response.data.imageUrl); //  SAVE CLOUDINARY URL
+      setIsUploading(false);
+    } catch (error) {
+      console.error(error);
+      navigate("/error");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newPlayer = {
       name,
       social,
-      image,
-      teamTrophies: teamTrophies
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
-      individualAwards: individualAwards
-        .split(",")
-        .map((a) => a.trim())
-        .filter(Boolean),
+      image: imageUrl,      //  USE CLOUDINARY URL
+      teamTrophies: teamTrophies.split(",").map((t) => t.trim()).filter(Boolean),
+      individualAwards: individualAwards.split(",").map((a) => a.trim()).filter(Boolean),
       nation: nation.split(",").map((n) => n.trim()).filter(Boolean),
       description,
       goals: Number(goals),
@@ -64,6 +85,26 @@ function AddPlayer() {
       <h1>Add New Player</h1>
 
       <form onSubmit={handleSubmit}>
+
+        {/*  CLOUDINARY UPLOAD */}
+        <label>Upload Player Image:</label>
+        <input
+          type="file"
+          name="image"
+          onChange={handleFileUpload}
+          disabled={isUploading}
+        />
+
+        {isUploading && <p>Uploading image...</p>}
+
+        {/*  IMAGE PREVIEW */}
+        {imageUrl && (
+          <div>
+            <img src={imageUrl} alt="preview" width={200} />
+          </div>
+        )}
+
+        
 
         <input
           type="text"
@@ -85,13 +126,6 @@ function AddPlayer() {
           placeholder="Social Link"
           value={social}
           onChange={(e) => setSocial(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
         />
 
         <textarea
@@ -147,7 +181,9 @@ function AddPlayer() {
           ))}
         </select>
 
-        <button type="submit">Create Player</button>
+        <button type="submit" disabled={isUploading}>
+          Create Player
+        </button>
       </form>
     </div>
   );
