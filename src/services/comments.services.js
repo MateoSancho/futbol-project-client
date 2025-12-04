@@ -20,7 +20,7 @@ class CommentsService {
 
   createComment(playerId, text) {
     this.setToken();
-    return this.api.post("/", {playerId, text });
+    return this.api.post(`/${playerId}`, { text });
   }
 
   deleteComment(commentId) {

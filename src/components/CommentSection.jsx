@@ -6,17 +6,36 @@ function CommentSection({ playerId }) {
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const token = localStorage.getItem("authToken");
-  const loggedUserId = token ? JSON.parse(atob(token.split(".")[1]))._id : null;
+  let loggedUserId = null;
+  let userRole = null;
 
-  // Fetch comments on mount
+  const token = localStorage.getItem("authToken");
+
+  if (token) {
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      loggedUserId = payload._id;
+      userRole = payload.role; // Get role from token
+    } catch (error) {
+      console.error("Error parsing token:", error);
+    }
+  }
+
+  // Fetch comments
   useEffect(() => {
+    loadComments();
+  }, [playerId]);
+
+  const loadComments = () => {
+    setLoading(true);
     commentsService
       .getComments(playerId)
-      .then((res) => setComments(res.data))
+      .then((res) => {
+        setComments(res.data);
+      })
       .catch((err) => console.error("Error loading comments:", err))
       .finally(() => setLoading(false));
-  }, [playerId]);
+  };
 
   // Submit new comment
   const handleSubmitComment = (e) => {
@@ -26,8 +45,8 @@ function CommentSection({ playerId }) {
     commentsService
       .createComment(playerId, newComment)
       .then((res) => {
-        setComments([...comments, res.data]);
         setNewComment("");
+        loadComments(); // Refresh to get populated data
       })
       .catch((err) => console.error("Error posting comment:", err));
   };
@@ -46,9 +65,9 @@ function CommentSection({ playerId }) {
 
   return (
     <div className="comment-section">
-      <h3>Comments</h3>
+      <h3>Comments ({comments.length})</h3>
 
-      {/* New Comment Form */}
+      {/* New Comment Form for only logged users */}
       {token && (
         <form onSubmit={handleSubmitComment} className="comment-form">
           <textarea
@@ -56,6 +75,7 @@ function CommentSection({ playerId }) {
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Write a comment..."
             rows="3"
+            required
           />
           <button type="submit">Post Comment</button>
         </form>
@@ -68,18 +88,33 @@ function CommentSection({ playerId }) {
         ) : (
           comments.map((comment) => (
             <div key={comment._id} className="comment">
-              <strong>{comment.userId?.username || "Unknown User"}</strong>
-              <p>{comment.text}</p>
+              <div className="comment-header">
+                <div className="comment-author">
+                  {/* Use comment.author not comment.userId */}
+                  <strong>{comment.author?.username || "Unknown"}</strong>
+                  <span className="comment-date">
+                    {comment.createdAt
+                      ? new Date(comment.createdAt).toLocaleDateString()
+                      : ""}
+                  </span>
+                </div>
 
-              {/* Delete button only for comment owner */}
-              {comment.userId?._id === loggedUserId && (
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDeleteComment(comment._id)}
-                >
-                  Delete
-                </button>
-              )}
+                {/* Show delete for comment owner OR admin */}
+                {(comment.author?._id === loggedUserId ||
+                  userRole === "admin") && (
+                  <button
+                    className="comment-delete-btn"
+                    onClick={() => handleDeleteComment(comment._id)}
+                    title="Delete comment"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              <div className="comment-text">
+                <p>{comment.text}</p>
+              </div>
             </div>
           ))
         )}
@@ -89,4 +124,3 @@ function CommentSection({ playerId }) {
 }
 
 export default CommentSection;
-

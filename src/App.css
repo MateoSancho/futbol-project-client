@@ -234,7 +234,7 @@ hr {
       rgba(10, 10, 40, 0.2),
       rgba(0, 0, 0, 0.85)
     ),
-    url("./assets/Club.png");
+    url("./assets/escudo-del-barcelona.webp");
 }
 
 #box3 {
@@ -1183,4 +1183,87 @@ hr {
   padding: 2rem;
   color: #666;
   font-style: italic;
+}
+
+/* Comment Section */
+.comment-section {
+  margin: 2rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.comment-form {
+  margin-bottom: 2rem;
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.comment-form button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-prompt {
+  color: #666;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comment-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.comment-author strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.comment-delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.comment-delete-btn:hover {
+  background: #c82333;
+}
+
+.comment-text {
+  color: #333;
+  line-height: 1.5;
 }

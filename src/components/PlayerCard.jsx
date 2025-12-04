@@ -19,13 +19,13 @@ function PlayerCard ({player}) {
         <div className="player-card">
             <div className="card-header">
                 <h3>{player.name}</h3>
-                <span className="nationality">{player.nation ? (Array.isArray(player.nation) ? player.nation.join(", ") : player.nation) : "Unknown"}</span>
+                <span className="nationality">{(player.nation) ? player.nation.join(", ") : player.nation}</span>
             </div>
 
             <div className="card-body">
-                <p><strong>Position:</strong> {player.position?.name || player.position || "No position"}</p>
-                <p><strong>Age:</strong> {calculateAge(player["birth date"])}</p>
-                <p><strong>Born:</strong> {new Date(player["birth date"]).toLocaleDateString()}</p>
+                <p><strong>Position:</strong> {player.position?.name || "No position"}</p>
+                <p><strong>Age:</strong> {calculateAge(player.birthday)}</p>
+                <p><strong>Born:</strong> {player.birthday ? new Date(player.birthday).toLocaleDateString() : "Unknown"}</p>
         
                 <div className="stats">
                     <div className="stat">
