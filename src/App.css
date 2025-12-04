@@ -1267,3 +1267,100 @@ hr {
   color: #333;
   line-height: 1.5;
 }
+
+/* Add Player Page Styles */
+.add-player-page {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.add-player-page h1 {
+  color: #004d98;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.add-player-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-player-page label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.add-player-page input[type="text"],
+.add-player-page input[type="number"],
+.add-player-page input[type="date"],
+.add-player-page select,
+.add-player-page textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.add-player-page input:focus,
+.add-player-page select:focus,
+.add-player-page textarea:focus {
+  outline: none;
+  border-color: #004d98;
+  box-shadow: 0 0 0 3px rgba(0, 77, 152, 0.1);
+}
+
+.add-player-page textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.add-player-page button[type="submit"] {
+  background: #004d98;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 20px;
+}
+
+.add-player-page button[type="submit"]:hover:not(:disabled) {
+  background: #003366;
+}
+
+.add-player-page button[type="submit"]:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+/* File upload styling */
+.add-player-page input[type="file"] {
+  padding: 10px;
+  border: 2px dashed #ddd;
+  border-radius: 6px;
+  background: #f8f9fa;
+  cursor: pointer;
+}
+
+.add-player-page input[type="file"]:hover {
+  border-color: #004d98;
+}
+
+/* Image preview */
+.add-player-page img {
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 3px solid #eee;
+}

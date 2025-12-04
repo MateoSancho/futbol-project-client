@@ -34,7 +34,7 @@ function AddPlayer() {
       .catch(() => navigate("/error"));
   }, []);
 
-  //  HANDLE CLOUDINARY UPLOAD
+  // HANDLE CLOUDINARY UPLOAD
   const handleFileUpload = async (event) => {
     if (!event.target.files[0]) return;
 
@@ -44,9 +44,17 @@ function AddPlayer() {
     uploadData.append("image", event.target.files[0]);
 
     try {
+      const token = localStorage.getItem("authToken");
+
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/upload`,
-        uploadData
+        uploadData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data"
+          }
+        }
       );
 
       setImageUrl(response.data.imageUrl); //  SAVE CLOUDINARY URL
@@ -93,6 +101,7 @@ function AddPlayer() {
           name="image"
           onChange={handleFileUpload}
           disabled={isUploading}
+          accept="image/*"
         />
 
         {isUploading && <p>Uploading image...</p>}
