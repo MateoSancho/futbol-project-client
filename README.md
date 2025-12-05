@@ -2,8 +2,6 @@
 
 ## [See the App!](https://barca-pedia.vercel.app/)
 
-![App Logo](your-image-logo-path-or-name)
-
 ## Description
 
 Barça Pedia es una aplicación donde los usuarios pueden explorar información detallada de jugadores del FC Barcelona, dejar comentarios y navegar entre posiciones. Los administradores pueden crear, editar y eliminar jugadores.
@@ -98,19 +96,16 @@ React, JavaScript, HTML, CSS, Axios, React Router, React Context, Cloudinary, Vi
 
 ### Collaborators
 
-[Anton](www.github-url.com)  
-[Mateo](www.github-url.com)
+[Anton](https://github.com/antonsanchoe-arch)  
+[Mateo](https://github.com/MateoSancho)
 
 ### Project
 
-[Repository Link Client](www.your-client-repo-url-here.com)  
-[Repository Link Server](www.your-server-repo-url-here.com)  
+[Repository Link Client](https://github.com/MateoSancho/futbol-project-client)  
+[Repository Link Server](https://github.com/MateoSancho/my-app-server)  
 [Deploy Link](https://barca-pedia.vercel.app/)
 
-### Trello
-
-[Link to your trello board](www.your-trello-url-here.com)
 
 ### Slides
 
-[Slides Link](www.your-slides-url-here.com)
+[Slides Link](https://docs.google.com/presentation/d/1QrAjMWU1wV6tRuXLtNAvMUXiSNwhcvX8kxjNU1HJwKc/edit?slide=id.p#slide=id.p)
