@@ -105,7 +105,7 @@ React, JavaScript, HTML, CSS, Axios, React Router, React Context, Cloudinary, Vi
 
 [Repository Link Client](www.your-client-repo-url-here.com)  
 [Repository Link Server](www.your-server-repo-url-here.com)  
-[Deploy Link](www.your-deploy-url-here.com)
+[Deploy Link](https://barca-pedia.vercel.app/)
 
 ### Trello
 
