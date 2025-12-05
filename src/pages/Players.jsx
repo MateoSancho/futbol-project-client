@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import PlayerCard from "../components/PlayerCard";
 import playersService from "../services/players.services";
+import { AuthContext } from "../context/auth.context";
 
 function Players() {
 
@@ -11,7 +12,8 @@ function Players() {
 
     const navigate = useNavigate();
 
-    const role = localStorage.getItem("role");
+    const { user, isLoggedIn } = useContext(AuthContext);
+    const isAdmin = user?.role === "admin";
 
     useEffect(() => {
         playersService
@@ -64,13 +66,15 @@ function Players() {
         <div>
             <h1>FC Barcelona Players</h1>
 
-            {role === "admin" && (
-                <button 
-                    onClick={() => navigate("/players/new")}
-                    className="add-player-btn"
-                >
-                    ➕ Add Player
-                </button>
+            {isAdmin && isLoggedIn && (
+                <div className="admin-actions">
+                    <button 
+                        onClick={() => navigate("/players/new")}
+                        className="add-player-btn"
+                    >
+                        ➕ Add New Player
+                    </button>
+                </div>
             )}
 
             <Link to="/" className="link">← Back to Home</Link>

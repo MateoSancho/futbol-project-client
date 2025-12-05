@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 import playersService from "../services/players.services";
+import { AuthContext } from "../context/auth.context"; 
 import EditPlayerForm from "../components/EditPlayerForm";
 import CommentSection from "../components/CommentSection";
 
@@ -12,7 +13,8 @@ function PlayerAbout() {
   const params = useParams();
   const navigate = useNavigate();
 
-  const role = localStorage.getItem("role");
+  const { user, isLoggedIn } = useContext(AuthContext);
+  const isAdmin = user?.role === "admin";
 
   // Load player data
   useEffect(() => {
@@ -171,14 +173,14 @@ function PlayerAbout() {
       </div>
 
       {/* ACTION BUTTONS — ONLY ADMINS */}
-      {role === "admin" && (
+      {isAdmin && isLoggedIn && (
         <div className="action-buttons">
           <button onClick={() => setIsEditing(true)} className="edit-btn">
-            Edit Player
+            ✏️ Edit Player
           </button>
 
           <button onClick={deletePlayer} className="delete-btn">
-            Delete Player
+            🗑️ Delete Player
           </button>
         </div>
       )}
