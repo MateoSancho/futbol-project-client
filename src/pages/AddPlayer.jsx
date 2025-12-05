@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+import { uploadToCloudinary } from '../services/cloudinary.services';
 import playersService from "../services/players.services";
 import positionsService from "../services/positions.services";
 import axios from "axios";
@@ -36,34 +37,24 @@ function AddPlayer() {
 
   // HANDLE CLOUDINARY UPLOAD
   const handleFileUpload = async (event) => {
-    if (!event.target.files[0]) return;
+  if (!event.target.files[0]) return;
 
-    setIsUploading(true);
+  setIsUploading(true);
+  const file = event.target.files[0];
 
-    const uploadData = new FormData();
-    uploadData.append("image", event.target.files[0]);
+  const result = await uploadToCloudinary(file);
 
-    try {
-      const token = localStorage.getItem("authToken");
+  if (result.success) {
+    setImageUrl(result.imageUrl);
+    console.log('Image uploaded:', result.imageUrl);
+  } else {
+    console.error('Upload failed:', result.error);
+    alert(`Upload failed: ${result.error}`);
+  }
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/upload`,
-        uploadData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data"
-          }
-        }
-      );
+  setIsUploading(false);
+};
 
-      setImageUrl(response.data.imageUrl); //  SAVE CLOUDINARY URL
-      setIsUploading(false);
-    } catch (error) {
-      console.error(error);
-      navigate("/error");
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
