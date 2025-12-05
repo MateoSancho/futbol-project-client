@@ -534,14 +534,14 @@ hr {
 
 .stat-card h3 {
   margin: 0 0 6px;
-  color: #333;
+  color: #ffffff;
   font-size: 1rem;
 }
 
 .stat-card .stat-number {
   font-size: 1.6rem;
   font-weight: 800;
-  color: var(--barca-blue);
+  color: white;
 }
 
 /* Descripción */
