@@ -1,37 +1,65 @@
-import axios from "axios";
+// TEMPORARY FIX - Use a default upload preset
+const CLOUD_NAME = 'dgd4d3qhx';
 
-class ProfileService {
-  constructor() {
-    this.api = axios.create({
-      baseURL: `${import.meta.env.VITE_SERVER_URL}/api/users`
-    });
+export const uploadToCloudinary = async (file) => {
+  if (!file) {
+    return { success: false, error: 'No file selected' };
   }
 
-  setToken() {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      this.api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  // Try multiple possible upload preset names
+  const possiblePresets = [
+    'barca_players',     // Your preset (when you create it)
+    'unsigned',          // Default unsigned preset
+    'ml_default',        // Common default
+    'football_pedia',    // Alternative name
+    'default'            // Basic default
+  ];
+
+  let lastError = null;
+  
+  // Try each preset until one works
+  for (const preset of possiblePresets) {
+    try {
+      console.log(`Trying upload preset: ${preset}`);
+      
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', preset);
+      formData.append('cloud_name', CLOUD_NAME);
+      
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      
+      if (data.secure_url) {
+        console.log(`Success with preset: ${preset}`);
+        return {
+          success: true,
+          imageUrl: data.secure_url,
+          publicId: data.public_id
+        };
+      }
+      
+      if (data.error && data.error.message.includes('preset')) {
+        lastError = data.error.message;
+        continue; // Try next preset
+      }
+      
+    } catch (error) {
+      lastError = error.message;
+      continue;
     }
   }
-
-  // Get current user profile
-  getProfile() {
-    this.setToken();
-    return this.api.get("/me");
-  }
-
-  // Update profile (name, email, profileImage)
-  updateProfile(data) {
-    this.setToken();
-    return this.api.patch("/me", data);
-  }
-
-  // Update password
-  updatePassword(currentPassword, newPassword) {
-    this.setToken();
-    return this.api.patch("/me/password", { currentPassword, newPassword });
-  }
-}
-
-const profileService = new ProfileService();
-export default profileService;
+  
+  // If all presets fail
+  return { 
+    success: false, 
+    error: `All upload presets failed. Last error: ${lastError || 'Unknown'}` 
+  };
+};
