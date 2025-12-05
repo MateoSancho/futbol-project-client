@@ -15,6 +15,7 @@ import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/Signup";
 import Error from "./pages/Error";
 import AddPlayer from "./pages/AddPlayer";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/error" element={<Error />} />
           <Route path="/players/new" element={<AddPlayer />} />
           <Route path="*" element={<NotFound />} />

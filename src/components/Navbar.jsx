@@ -4,7 +4,7 @@ import { useContext } from "react";
 import myLogo from "../assets/Logo.png";
 
 function Navbar() {
-  const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
+  const { isLoggedIn, logOutUser } = useContext(AuthContext);
 
   return (
     <div className="navbar">
@@ -29,7 +29,7 @@ function Navbar() {
           {/* Conditional rendering based on login */}
           {isLoggedIn ? (
             <>
-              <span className="nav-link">Welcome</span>
+              <Link to="/profile" className="nav-link">Profile</Link>
               <button onClick={logOutUser} className="nav-link">
                 Logout
               </button>
